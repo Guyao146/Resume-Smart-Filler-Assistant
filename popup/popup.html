@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 简历自动填充助手</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 头部 -->
+    <div class="header">
+      <div class="logo">📝</div>
+      <h1>AI 简历自动填充</h1>
+      <p class="subtitle">上传简历，一键智能填写表单</p>
+    </div>
+
+    <!-- 状态提示 -->
+    <div id="statusMessage" class="status-message hidden"></div>
+
+    <!-- 未上传简历时的界面 -->
+    <div id="uploadSection" class="section">
+      <div class="upload-area" id="dropZone">
+        <div class="upload-icon">📄</div>
+        <p>拖拽简历到此处，或点击上传</p>
+        <span class="upload-hint">支持 PDF、Word（.doc/.docx）、TXT 格式</span>
+        <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.txt" hidden>
+      </div>
+      <div class="or-divider">— 或 —</div>
+      <button id="manualPasteBtn" class="btn btn-secondary btn-full">
+        ✍️ 手动粘贴简历文本
+      </button>
+    </div>
+
+    <!-- 手动粘贴区域（初始隐藏） -->
+    <div id="pasteSection" class="section hidden">
+      <div class="paste-card">
+        <div class="paste-header">
+          <span>✍️ 手动粘贴简历</span>
+          <button id="closePaste" class="btn-icon">✕</button>
+        </div>
+        <p class="paste-hint">将 PDF/Word 中的文字全部复制粘贴到下方，AI 会直接理解文本内容</p>
+        <textarea id="resumeTextarea" class="resume-textarea" placeholder="请在此粘贴您的简历内容...
+
+例如：
+姓名：张三
+电话：138-xxxx-xxxx
+邮箱：zhangsan@example.com
+教育背景：北京大学 计算机科学 本科
+工作经验：3年 Java 开发...
+"></textarea>
+        <div class="paste-actions">
+          <button id="saveTextResume" class="btn btn-primary btn-small">保存并解析</button>
+          <button id="clearPaste" class="btn btn-secondary btn-small">清空</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 已上传简历时的界面 -->
+    <div id="resumeSection" class="section hidden">
+      <div class="resume-card">
+        <div class="resume-info">
+          <span class="resume-icon">📄</span>
+          <div class="resume-details">
+            <span id="resumeName" class="resume-name"></span>
+            <span id="resumeSize" class="resume-size"></span>
+          </div>
+        </div>
+        <button id="deleteResume" class="btn-icon" title="删除简历">🗑️</button>
+      </div>
+
+      <!-- 简历解析预览 -->
+      <div class="parsed-preview">
+        <div class="preview-header">
+          <span>📋 解析预览</span>
+          <button id="togglePreview" class="btn-link">展开</button>
+        </div>
+        <div id="previewContent" class="preview-content collapsed">
+          <div id="parsedInfo"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 操作按钮区 -->
+    <div class="actions">
+      <button id="scanBtn" class="btn btn-primary" disabled>
+        <span class="btn-icon">🔍</span>
+        扫描并填充当前页面
+      </button>
+      <button id="settingsBtn" class="btn btn-secondary">
+        <span class="btn-icon">⚙️</span>
+        设置
+      </button>
+    </div>
+
+    <!-- 设置面板 -->
+    <div id="settingsPanel" class="section hidden">
+      <div class="settings-group">
+        <label>AI 服务提供商</label>
+        <select id="aiProvider">
+          <option value="openai">OpenAI (GPT-4o / GPT-3.5)</option>
+          <option value="moonshot">Moonshot AI (Kimi)</option>
+          <option value="custom">自定义 API</option>
+        </select>
+      </div>
+      <div class="settings-group">
+        <label>API Key</label>
+        <input type="password" id="apiKey" placeholder="输入你的 API Key">
+      </div>
+      <div class="settings-group" id="customEndpointGroup" style="display:none;">
+        <label>自定义 API 地址</label>
+        <input type="text" id="customEndpoint" placeholder="https://api.example.com/v1/chat/completions">
+      </div>
+      <div class="settings-group">
+        <label>模型选择</label>
+        <select id="modelSelect">
+          <option value="gpt-4o">GPT-4o</option>
+          <option value="gpt-4o-mini">GPT-4o Mini</option>
+          <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+        </select>
+      </div>
+      <div class="settings-actions">
+        <button id="saveSettings" class="btn btn-primary btn-small">保存设置</button>
+        <button id="cancelSettings" class="btn btn-secondary btn-small">取消</button>
+      </div>
+    </div>
+
+    <!-- 填充进度 -->
+    <div id="progressSection" class="section hidden">
+      <div class="progress-bar">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+      <p id="progressText" class="progress-text">正在分析...</p>
+    </div>
+
+    <!-- 填充结果 -->
+    <div id="resultSection" class="section hidden">
+      <div class="result-summary">
+        <div class="result-item">
+          <span class="result-label">识别字段</span>
+          <span id="totalFields" class="result-value">0</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">成功填充</span>
+          <span id="filledFields" class="result-value success">0</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">未匹配</span>
+          <span id="unmatchedFields" class="result-value warning">0</span>
+        </div>
+      </div>
+      <div id="unmatchedList" class="unmatched-list collapsed"></div>
+      <button id="fillManually" class="btn btn-secondary btn-small">手动补充填写</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

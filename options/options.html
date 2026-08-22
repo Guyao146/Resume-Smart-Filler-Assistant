@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 简历自动填充助手 - 设置</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">📝</div>
+      <h1>AI 简历自动填充助手 - 设置</h1>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>🔑 AI 服务配置</h2>
+        <div class="form-group">
+          <label for="optProvider">AI 服务提供商</label>
+          <select id="optProvider">
+            <option value="openai">OpenAI</option>
+            <option value="moonshot">Moonshot AI (Kimi)</option>
+            <option value="custom">自定义 API</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="optApiKey">API Key</label>
+          <input type="password" id="optApiKey" placeholder="sk-...">
+          <span class="hint">你的 API Key 仅存储在本地浏览器中，不会上传到任何服务器</span>
+        </div>
+        <div class="form-group" id="optCustomEndpointGroup">
+          <label for="optCustomEndpoint">自定义 API 地址</label>
+          <input type="text" id="optCustomEndpoint" placeholder="https://api.example.com/v1/chat/completions">
+        </div>
+        <div class="form-group">
+          <label for="optModel">模型</label>
+          <select id="optModel">
+            <option value="gpt-4o">GPT-4o</option>
+            <option value="gpt-4o-mini">GPT-4o Mini</option>
+            <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>⚙️ 填充设置</h2>
+        <div class="form-group checkbox">
+          <input type="checkbox" id="optAutoFill" checked>
+          <label for="optAutoFill">检测到表单时自动填充（推荐关闭，手动控制更安全）</label>
+        </div>
+        <div class="form-group checkbox">
+          <input type="checkbox" id="optHighlight" checked>
+          <label for="optHighlight">填充后高亮显示已填字段</label>
+        </div>
+        <div class="form-group checkbox">
+          <input type="checkbox" id="optConfirm">
+          <label for="optConfirm">填充前确认每个字段（更精确但较慢）</label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>📋 简历管理</h2>
+        <div id="resumeInfo" class="resume-info">
+          <p class="empty">暂无简历</p>
+        </div>
+        <div class="actions">
+          <button id="deleteResumeBtn" class="btn btn-danger">删除简历</button>
+          <button id="exportResumeBtn" class="btn btn-secondary">导出简历数据</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>📊 使用统计</h2>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-value" id="statTotalFills">0</span>
+            <span class="stat-label">总填充次数</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="statTotalFields">0</span>
+            <span class="stat-label">总填充字段</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="statSuccessRate">0%</span>
+            <span class="stat-label">成功率</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <button id="saveBtn" class="btn btn-primary btn-large">保存设置</button>
+      <div id="saveStatus" class="save-status"></div>
+    </footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
