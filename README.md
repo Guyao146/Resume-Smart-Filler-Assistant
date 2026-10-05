@@ -4,7 +4,7 @@
 
 [![樱落生态成员](https://raw.githubusercontent.com/Guyao146/Sakura-EcoSystem-wiki/main/assets/ConnectEcoSystem.svg)](https://mcylyr.cn)
 [![已编写Wiki](https://raw.githubusercontent.com/Guyao146/Sakura-EcoSystem-wiki/main/assets/sakura-wiki.svg)](https://wiki.mcylyr.cn/)
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL--v3-blue.svg)](LICENSE)
+[![License: Sakura-License v1.2](https://img.shields.io/badge/License-Sakura--License--v1.2-pink.svg)](LICENSE)
 
 <p align="left">
   <b>上传简历，让 AI 帮你完成重复的网页表单填写</b>
@@ -172,3 +172,19 @@ API Key 来源：
 ```text
 Ctrl + Shift + R  打开 / 关闭手动填充面板
 ```
+
+## 许可证
+
+本项目采用 **Sakura-License v1.2**（固定文本标识 `Sakura-License-1.2`）。完整正文见 [LICENSE](./LICENSE)，
+采用声明（项目、许可人、适用范围与首次适用提交）见 [NOTICE.md](./NOTICE.md)。
+
+- 它是**源码可用（source-available）**许可证，限制特定商业利用，不是 OSI 批准的开源许可证；
+- 阅读、运行、复制、修改、分发与自部署免许可费；但**面向第三方的商业利用（销售、订阅、付费 SaaS、收费托管 / 部署 / 定制 / 支持等）须先取得书面商业授权**；
+- 对外分发或提供受覆盖作品时，须保留署名、许可证与来源信息，并**同步公开对应源码**；
+- 历史 AGPL-3.0 与后续 LGPL-2.1 副本的既有权利均保留；捆绑 PDF.js 保持 Apache-2.0（见 [NOTICE.md](./NOTICE.md)）。
+
+商用授权请在 [Issues](https://github.com/Guyao146/Resume-Smart-Filler-Assistant/issues) 发起申请（请勿在公开 Issue 中提交敏感资料）。
+
+## v1.0.1 发布
+
+本版本统一采用 Sakura-License v1.2，随发布包提供 LICENSE 与 NOTICE.md；历史和第三方授权保持不变。修复后台脚本重复模板尾部导致的语法错误，并恢复同版本完整 PDF.js worker，避免扩展加载失败。

@@ -213,10 +213,6 @@ ${fieldsJson}
   {"index": 0, "value": "具体值"},
   {"index": 1, "value": "NOT_FOUND"}
 ]`;
-[
-  {"index": 0, "value": "具体值"},
-  {"index": 1, "value": "NOT_FOUND"}
-]`;
 }
 
 function parseAIResponse(response, fields) {

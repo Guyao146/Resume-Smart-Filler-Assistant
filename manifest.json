@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "AI 简历自动填充助手",
   "name_en": "AI Resume Autofill",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "上传简历后，AI 自动识别网页表单并智能填充",
   "description_en": "Upload your resume and let AI auto-fill web forms",
   "permissions": [
